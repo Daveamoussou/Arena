@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: arene-des-jeux
+    runtime: node
+    buildCommand: npm install --omit=dev
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      # Sans disque persistant, les comptes sont effacés à chaque redéploiement.
+      # Avec un disque Render monté sur /var/data, décommente la ligne suivante :
+      # - key: DATA_FILE
+      #   value: /var/data/db.json

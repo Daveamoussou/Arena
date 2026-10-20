@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#14122b">
+  <title>Arène des jeux</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" type="image/png" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Arène">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="topbar" id="topbar" hidden>
+    <div class="brand">🎮 Arène des jeux</div>
+    <div class="topbar-right">
+      <span class="who" id="who"></span>
+      <button class="btn small ghost" id="logout">Déconnexion</button>
+    </div>
+  </header>
+
+  <main id="app">
+    <!-- Connexion / inscription -->
+    <section id="screen-auth" class="screen" hidden>
+      <div class="card auth-card">
+        <h1>Arène des jeux</h1>
+        <p class="muted">Puissance 4 et Pierre-Feuille-Ciseaux. Défie tes amis ou l'ordinateur.</p>
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-tab="register" role="tab">Inscription</button>
+          <button class="tab" data-tab="login" role="tab">Connexion</button>
+        </div>
+
+        <form id="form-register" class="form" novalidate>
+          <label>Adresse e-mail
+            <input type="email" name="email" autocomplete="email" required>
+            <span class="err" data-for="email"></span>
+          </label>
+          <label>Pseudo (3 à 16 caractères)
+            <input type="text" name="pseudo" autocomplete="nickname" maxlength="16" required>
+            <span class="err" data-for="pseudo"></span>
+          </label>
+          <label>Mot de passe (8 caractères minimum)
+            <input type="password" name="password" autocomplete="new-password" required>
+            <span class="err" data-for="password"></span>
+          </label>
+          <div class="label">Ton avatar</div>
+          <div class="avatars" id="avatar-register"></div>
+          <div class="err" id="err-register"></div>
+          <button class="btn primary" type="submit">Créer mon profil</button>
+        </form>
+
+        <form id="form-login" class="form" novalidate hidden>
+          <label>Adresse e-mail
+            <input type="email" name="email" autocomplete="email" required>
+          </label>
+          <label>Mot de passe
+            <input type="password" name="password" autocomplete="current-password" required>
+          </label>
+          <div class="err" id="err-login"></div>
+          <button class="btn primary" type="submit">Se connecter</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Salon -->
+    <section id="screen-lobby" class="screen" hidden>
+      <div class="lobby-grid">
+        <div class="col">
+          <div class="card" id="me-card"></div>
+
+          <div class="card">
+            <h2>🤖 Jouer contre l'ordinateur</h2>
+            <div class="seg" id="cpu-game">
+              <button class="seg-btn active" data-game="p4">Puissance 4</button>
+              <button class="seg-btn" data-game="rps">Pierre-Feuille-Ciseaux</button>
+            </div>
+            <div class="levels" id="cpu-levels">
+              <button class="level" data-level="1"><strong>Niveau 1</strong><span>Débutant</span></button>
+              <button class="level" data-level="2"><strong>Niveau 2</strong><span>Malin</span></button>
+              <button class="level" data-level="3"><strong>Niveau 3</strong><span>Redoutable</span></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <div class="row between">
+              <h2>👥 Joueurs libres</h2>
+              <span class="pill" id="online-count"></span>
+            </div>
+            <input type="search" id="search" placeholder="Chercher un joueur…" aria-label="Chercher un joueur">
+            <ul class="players" id="players"></ul>
+            <p class="muted small" id="players-empty" hidden>Personne d'autre n'est libre pour l'instant. Partage le lien du site à tes amis !</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Partie -->
+    <section id="screen-game" class="screen" hidden>
+      <div class="card game-card" id="game"></div>
+    </section>
+  </main>
+
+  <div class="overlay" id="overlay" hidden>
+    <div class="modal" id="modal" role="dialog" aria-modal="true"></div>
+  </div>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
